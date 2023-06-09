@@ -4,6 +4,8 @@ With the increasing availability of movies on various platforms, the challenge o
 
 In this project, 3 different kinds of recommendation mechanisms are implemented. First one is content-based filtering, and second one is collaborative filtering. And 3 methods in collaborative filtering are implemented. They are User-Based Collaborative Filtering, Item-Based Collaborative Filtering and Matrix Factorization(MLP Approach and SVD Approach). Then I combined content-based filtering and collaborative filtering to create a hybrid filtering as the third one that takes advantage of the strengths of both methods. By leveraging the power of collaborative filtering and content-based filtering, this system can provide accurate and relevant recommendations that help users discover new movies they might not have otherwise considered. Apart from this, an interactive web page was built. This web page is user-friendly and intuitive, with clear instructions and a simple interface, which allows users to easily access and provides users with an enhanced experience.
 
+The link to the Interactive Web Application of Movie Recommendation System: https://movie-recommendation-system-jinbo-li.streamlit.app/
+
 ### Dataset Description
 The datasets in the project are extracted from the official website of IMDB and MovieLens, consisting of over 100k movie rating records from 671 users and including over 45k movies, with a total of 26 columns containing detailed movie information, such as movie description, movie casts, movie keywords, movie overviews and so on etc. There are total 6 csv files. They are movies, ratings, keywords, crew, movies_m and links.
 
@@ -13,9 +15,22 @@ Check out at the Datasets file.
 #### EDA 
 EDA.py
 #### TOP 50 Movies and top movies in different genres
-TOP Movies
+TOP Movies.py
+#### Content-Based Filtering
+Content-Based Filtering.py
+#### User-Based Collaborative Filtering
+User-Based Collaborative Filtering.py
+#### Item-Based Collaborative Filtering
+Item-Based Collaborative Filtering.py
+#### Matrix Factorization
+##### MLP Approach
+MLP.py
+##### SVD(Singular Value Decomposition) Approach
+SVD.py
+#### Hybrid Filtering
+Hybrid Model.py
+#### Web Application
+Streamlit.py
 
-
-
-
-The link to the Interactive Web Application of Movie Recommendation System: https://movie-recommendation-system-jinbo-li.streamlit.app/
+## Report
+Check out the summary report.pdf
