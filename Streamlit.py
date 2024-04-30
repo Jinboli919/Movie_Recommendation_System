@@ -39,6 +39,7 @@ if option == "Get Recommendations":
                     recommend = movie_recommendation_system.content_recommendations_improved(movie_title, n)
                     return recommend
                 except ValueError:
+                    st.error('The movie you entered is not found in our database. Please make sure you have entered the correct movie title (including letter case).')
                     return None
 
             if get_recommendations:
@@ -46,8 +47,6 @@ if option == "Get Recommendations":
                     recommendations = content(movie_title, n=numbers_of_return)
                     if recommendations:
                         st.write(pd.DataFrame(recommendations))
-                    else:
-                        st.warning('The movie you entered is not found in our database. Please make sure you have entered the correct movie title.')
                 else:
                     st.warning('Please enter a movie title.')
 
@@ -68,6 +67,7 @@ if option == "Get Recommendations":
                     recommend = movie_recommendation_system.get_recommendations_item(user_id, n=numbers_of_return)
                     return recommend
                 except ValueError:
+                    st.error('The user id you entered is not found in our database.')
                     return None
 
             if get_recommendations2:
@@ -75,8 +75,6 @@ if option == "Get Recommendations":
                     recommendations2 = cf(user_id, k=5, n=numbers_of_return)
                     if recommendations2:
                         st.write(pd.DataFrame(recommendations2))
-                    else:
-                        st.warning('The user id you entered is not found in our database.')
                 else:
                     st.warning('Please enter a user id.')
 
