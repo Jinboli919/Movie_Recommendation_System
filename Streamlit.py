@@ -1,26 +1,38 @@
 import streamlit as st
 import pandas as pd
+import pickle
 import movie_recommendation_system
 
 st.set_page_config(page_title="Movie Recommendation System", layout="centered", page_icon=":film_projector:")
 st.title('Movie Recommendation System :film_projector:')
 st.sidebar.subheader('Movie Recommendation System :film_projector:')
 st.sidebar.subheader('Jinbo Li')
-
 option = st.sidebar.radio(
     "Find your movies",
     ("Get Recommendations", "EDA Parts", "TOP 50 MOVIES", "TOP 20 MOVIES in Popular Genres"))
-
 st.sidebar.subheader(' :cinema: - About this Project')
-st.sidebar.info("""
+st.sidebar.info("""     
 -   With the increasing availability of movies on various platforms, the challenge of selecting the most preferred movies for users has become a critical issue in the entertainment industry.
 -   The project aims to build a movie recommendation system to produce a ranked list of movies to provide personalized recommendations based on users’ preferences, rating history and other relevant factors. """)
 
 
 if option == "Get Recommendations":
+
     st.info('Which recommender would you like to use?👇')
 
     left, mid, right = st.columns(3)
+
+    m = st.markdown("""
+        <style>
+        div.stButton > button:first-child {
+            background-color: #00ff00; 
+            color:#ff0000; 
+        }
+        div.stButton > button:hover {
+            background-color: #0099ff;
+            color:#ffffff;
+            }
+        </style>""", unsafe_allow_html=True)
 
     with left:
         with st.expander("Content-Based"):
@@ -35,18 +47,17 @@ if option == "Get Recommendations":
             get_recommendations = st.button('Get Recommendations-1 :tv:')
 
             def content(movie_title, n):
-                try:
-                    recommend = movie_recommendation_system.content_recommendations_improved(movie_title, n)
-                    return recommend
-                except ValueError:
-                    st.error('The movie you entered is not found in our database. Please make sure you have entered the correct movie title (including letter case).')
-                    return None
+                recommend = movie_recommendation_system.content_recommendations_improved(movie_title, n)
+                return recommend
 
             if get_recommendations:
                 if movie_title:
-                    recommendations = content(movie_title, n=numbers_of_return)
-                    if recommendations:
+                    try:
+                        recommendations = content(movie_title, n=numbers_of_return)[:numbers_of_return]
                         st.write(pd.DataFrame(recommendations))
+                    except KeyError:
+                        st.warning(
+                            'The movie you entered is not found in our database. Please make sure you have entered the correct movie title (including letter case).')
                 else:
                     st.warning('Please enter a movie title.')
 
@@ -63,18 +74,17 @@ if option == "Get Recommendations":
             get_recommendations2 = st.button('Get Recommendations-2 :tv:')
 
             def cf(user_id, k=5, n=numbers_of_return):
-                try:
-                    recommend = movie_recommendation_system.get_recommendations_item(user_id, n=numbers_of_return)
-                    return recommend
-                except ValueError:
-                    st.error('The user id you entered is not found in our database.')
-                    return None
+                recommend = movie_recommendation_system.get_recommendations_item(user_id, n=numbers_of_return)
+                return recommend
 
             if get_recommendations2:
                 if user_id:
-                    recommendations2 = cf(user_id, k=5, n=numbers_of_return)
-                    if recommendations2:
+                    try:
+                        recommendations2 = cf(user_id, k=5, n=numbers_of_return)[:numbers_of_return]
                         st.write(pd.DataFrame(recommendations2))
+                    except KeyError:
+                        st.warning(
+                            'The movie you entered is not found in our database. Please make sure you have entered the correct movie title (including letter case).')
                 else:
                     st.warning('Please enter a user id.')
 
@@ -92,9 +102,12 @@ if option == "Get Recommendations":
 
             # if get_recommendations3:
             # if user_id2 and movie_title2:
+            # try:
             # recommendations3 = hy(user_id2, movie_title2, n=numbers_of_return)[:numbers_of_return]
             # st.write(pd.DataFrame(recommendations3))
-
+            # except KeyError:
+            # st.warning(
+            # 'The movie you entered is not found in our database. Please make sure you have entered the correct movie title (including letter case).')
             # else:
             # st.warning('Please enter a user id and a movie title.')
 
@@ -159,7 +172,6 @@ if option == "TOP 20 MOVIES in Popular Genres":
     def top20(genres, percentile=0.8, genre_name=Genres):
         top = movie_recommendation_system.build_top(genres, percentile=0.8, genre_name=Genres)
         return top
-
 
     if get_top_20:
         if Genres:
